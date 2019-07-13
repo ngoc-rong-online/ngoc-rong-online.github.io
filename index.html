@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Bộ Giáo dục và Đào tạo</title>
+    <link rel="stylesheet" href="http://diemthi.namdinh.edu.vn/Content/Custom/Tracuu/Css/style.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="http://diemthi.namdinh.edu.vn/Content/Custom/Tracuu/Css/frame.css" media="screen" type="text/css" />
+    <script type="text/javascript" src="http://diemthi.namdinh.edu.vn/Content/Custom/js/jquery.min.js"></script>
+
+    <style>
+        .tbl-listhd {
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+        }
+        .tbl-listhd td {
+            padding:10px;
+            border: 1px solid #808080;
+        }
+        a {
+            color:blue;
+        }
+        a:hover {
+            text-decoration:underline;
+        }
+    </style>
+</head>
+<body>
+    <!--//--Header----------------->
+    <div class="top-main">
+        <div class="wrap">
+            <div class="logo">
+                <h1>
+                    <a href="#" title="Trang thông tin kỳ thi quốc gia 2019">
+                        BỘ GIÁO DỤC VÀ ĐÀO TẠO<br />
+                    <span>TRANG THÔNG TIN KỲ THI QUỐC GIA 2019</span>
+                </a>
+            </h1>
+        </div>
+    </div>
+</div>
+<!--//--Main content----------------->
+<div class="wrap">
+    <div class="q-info"><p></p></div>
+</div>
+<div class="content-main">
+    <form id="SearchTSForm" method="post">
+        <div class="form-reg">
+            
+            <ul class="q-list">
+                <li><h3 style="text-transform:uppercase;font-weight:bold;text-align:center;"></h3></li>
+                <li><h2 style="text-align:center;">TRA CỨU ĐIỂM THI THPT QUỐC GIA 2019</h2></li>
+                    <li>Thí sinh nhập tài khoản từ địa chỉ <a href="http://thisinh.thithptquocgia.edu.vn">http://thisinh.thithptquocgia.edu.vn</a> hoặc nhập số báo danh và mã xác nhận vào các ô dưới đây</li>
+                    <li><label>Số báo danh</label><input type="text" name="SOBAODANH" value="" class="e-input" /></li>
+                    <li>
+                        <label>Mã xác nhận</label>
+                        <input type="text" style="width: 107px;margin-left: -4px;" name="ConfirmCode" autocomplete="off" class="e-input" />
+                        <img id="ImgCaptcha" style="border: solid 1px #808080; height: 30px;margin-top: -3px;vertical-align: middle;" />
+                        <img id="refreshCaptcha" src="http://diemthi.namdinh.edu.vn/Content/refresh.png" style="vertical-align: middle;cursor: pointer; width: 24px; height: 24px; margin-bottom: 8px; margin-left: 8px;" />
+                    </li>
+                    <li><label>&nbsp;</label><input id="btnsubmit" type="button" onclick="dosubmit()" class="e-btn" value="Tra cứu"></li>
+                    <li class="hd" style="display:none">
+                        <br />
+                        <div>
+                            <div>
+                                <span>Họ và tên: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span id="ts-sbd" style="display:none;"></span>
+                                <span id="ts-name" style="font-weight: bold; text-transform: uppercase;"></span>
+                            </div>
+                            <br />
+                            <div>
+                                <span>Điểm các môn: &nbsp;</span>
+                                <span id="ts-mark" style="font-weight:bold"></span>
+                            </div>
+                            <br />
+                            <div>
+                                <span style="font-style:italic;" id="ghi-chu">Ghi chú: Dấu (*) thể hiện điểm thi sau phúc khảo</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li><label>&nbsp;</label><span style="color:red;" id="err-msg"></span></li>
+            </ul>
+            
+        </div>
+    </form>
+</div>
+<!--//--Footer----------------->
+<div class="footer-main">
+    <div class="wrap">
+        <p>
+            
+    </p>
+</div>
+</div>
+<script type="text/javascript">
+        $("#refreshCaptcha").click(function () {
+            $("#ImgCaptcha").attr("src", "http://diemthi.namdinh.edu.vn/TraCuu/GetCaptcha?time=" + new Date().getTime() + "&choose=1");
+        });
+
+        $(document).ready(function () {
+            $("#ImgCaptcha").attr("src", "http://diemthi.namdinh.edu.vn/TraCuu/GetCaptcha?time=" + new Date().getTime() + "&choose=1");
+
+            $(window).resize(function () {
+                $(".content-main").css({ "min-height": $(window).height() - $(".top-main").height() - $(".footer-main").height() - 65 });
+            });
+            $(".content-main").css({ "min-height": $(window).height() - $(".top-main").height() - $(".footer-main").height() - 65 });
+
+        });
+
+        function dosubmit() {
+            $("#btnsubmit").attr("disabled", "disabled");
+            $("#err-msg").html("Đang tra cứu...");
+            $.ajax({
+                url: 'http://diemthi.namdinh.edu.vn/TraCuu/TraCuu',
+                type: 'POST',
+                data: $("#SearchTSForm").serialize(),
+                error: function (data) {
+                    $("#btnsubmit").removeAttr("disabled");
+                    $("#err-msg").html(data);
+                    $(".hd").hide();
+                    $("#ImgCaptcha").attr("src", "http://diemthi.namdinh.edu.vn/TraCuu/GetCaptcha?time=" + new Date().getTime() + "&choose=1");
+                },
+                success: function (data) {
+                    $("#btnsubmit").removeAttr("disabled");
+                    if (data.Message != null) {
+                        $("#err-msg").html(data.Message);
+                        $(".hd").hide();
+                    } else {
+                        $("#ts-name").html(data.HO_TEN);
+                        $("#ts-sbd").html(data.SOBAODANH);
+                        $("#ts-mark").html(data.DIEM_THI.replace(/ /g, "&nbsp;"));
+                        //$("#imgResult").attr("src", data);
+                        if (data.DIEM_THI.indexOf('*') >= 0) {
+
+                        }
+                        $(".hd").show();
+                        $("#err-msg").html("");
+                    }
+                    $("#ImgCaptcha").attr("src", "http://diemthi.namdinh.edu.vn/TraCuu/GetCaptcha?time=" + new Date().getTime() + "&choose=1");
+                }
+            });
+        }
+</script>
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-61066349-3', 'auto');
+    ga('send', 'pageview');
+
+</script>
+</body>
+</html>

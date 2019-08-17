@@ -137,11 +137,11 @@
     </head>
     <body>
         <div class="container">
-            <span class="sorry-text">XIN LỖI!</span>
+            <span class="sorry-text">Oh!</span>
 
             <section class="contact-info">
-                Nếu bạn là chủ sở hữu của website này, vui lòng liên hệ với nhà cung cấp dịch vụ hosting:
-                <a href="mailto:webmaster@cuibapvhvn.us.to" target="_blank" rel="noopener noreferrer" title="Click this link to contact the host" id="dynamicProviderLink">
+                cPanel(CuiBapVH_VN) đã được cài đặt thành công:
+                <a href="mailto:cuibapvh@gmail.com" target="_blank" rel="noopener noreferrer" title="Click this link to contact the host" id="dynamicProviderLink">
                     cuibapvh@gmail.com
                 </a>
             </section>
